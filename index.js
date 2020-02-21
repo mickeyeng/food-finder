@@ -42,36 +42,48 @@ function searchMeal(e) {
       });
     // Clear search text
     search.value = '';
-    Ÿ;
   } else {
     alert('Please enter a search term');
   }
 }
 
 // Fetch meal by ID
-function getMealById(mealID) {
-  fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${mealID}`)
-    .then(res => res.json())
-    .then(data => {
-      const meal = data.meals[0];
+async function getMealById(mealID) {
+  const response = await fetch(
+    `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${mealID}`
+  );
+  const json = await response.json();
+  const meal = await json.meals[0];
+  addMealToDOM(meal);
 
-      addMealToDOM(meal);
-    });
+  // fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${mealID}`)
+  //   .then(res => res.json())
+  //   .then(data => {
+  //     const meal = data.meals[0];
+
+  //     addMealToDOM(meal);
+  //   });
 }
 
 //Fetch random meal by ID
-function getRandomMeal() {
+async function getRandomMeal() {
   // clear meals and heading
   mealsEl.innerHTML = '';
   resultHeading.innerHTML = '';
+  const response = await fetch(
+    'https://www.themealdb.com/api/json/v1/1/random.php'
+  );
+  const data = await response.json();
+  const meal = data.meals[0];
+  addMealToDOM(meal);
 
-  fetch('https://www.themealdb.com/api/json/v1/1/random.php')
-    .then(res => res.json())
-    .then(data => {
-      const meal = data.meals[0];
+  // fetch('https://www.themealdb.com/api/json/v1/1/random.php')
+  //   .then(res => res.json())
+  //   .then(data => {
+  //     const meal = data.meals[0];
 
-      addMealToDOM(meal);
-    });
+  //     addMealToDOM(meal);
+  //   });
 }
 
 // Add meal to DOM
